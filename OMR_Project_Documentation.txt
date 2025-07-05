@@ -1,0 +1,132 @@
+
+# 📘 Project: OMR Sheet Evaluation with Roll Number Detection
+
+This project automates the evaluation of OMR (Optical Mark Recognition) sheets using image processing with **Python + OpenCV**. It includes features to extract answers, detect roll numbers, and generate results in Excel format.
+
+---
+
+## 📁 Folder Structure
+
+```
+OMR-Evaluator/
+│
+├── coordinates.txt               # Coordinates used for answer and roll detection
+├── find_coord.py                # Interactive tool to fetch and save coordinates
+├── result_with_roll.py          # Core evaluation script
+├── README.txt                   # This documentation
+└── sample_omr_images/           # Folder to store scanned OMR sheet images
+```
+
+---
+
+## ⚙️ Requirements
+
+Install dependencies:
+
+```bash
+pip install opencv-python pandas openpyxl
+```
+
+---
+
+## 📝 1. Manual Coordinate Collector – find_coord.py
+
+**Purpose:** Manually draw rectangles on a sample OMR sheet to collect answer/roll number coordinates.
+
+### ➤ How it works:
+
+- Loads the sample `.tif` image.
+- Lets you draw rectangles on answer bubbles (A/B/C/D).
+- Saves those coordinates in `roll_coordinates.txt`.
+
+### 🔧 Usage:
+
+```bash
+python find_coord.py
+```
+
+### 🖱 Controls:
+
+- `Mouse Drag` → Draw rectangle
+- `r` → Reset all drawn rectangles
+- `d` → Delete last rectangle
+- `q` → Quit and save coordinates
+
+---
+
+## 📊 2. OMR Evaluator – result_with_roll.py
+
+**Purpose:** Detect answers and roll numbers from scanned OMR sheets and export results to Excel.
+
+### ➤ What it does:
+
+- Loads all `.tif`/`.jpg`/`.png` images from the input folder
+- Compares detected answers with the **answer key image**
+- Extracts **roll number** from filled bubbles
+- Exports marks + answers to `omr_results.xlsx`
+
+### 📁 Modify These Paths Inside the Script:
+
+```python
+input_folder = r'C:\path\to\OMR\images'
+answer_key_path = r'C:\path\to\ANSWERKEY\ANSWERKEY_0001.tif'
+output_file = r'C:\omr\omr_results.xlsx'
+```
+
+### ▶️ Run:
+
+```bash
+python "result with roll.py"
+```
+
+---
+
+## 🧠 Logic Overview
+
+### ✅ Answer Detection:
+- For each question, checks if exactly one bubble is filled.
+- If multiple bubbles: `Invalid`, if none: `Unmarked`.
+
+### ✅ Roll Number Detection:
+- 4 sections (F, S, T, L) represent roll digits.
+- For each digit (0–9), only one bubble should be marked.
+
+---
+
+## ✅ Output: omr_results.xlsx
+
+| Image       | RollNumber | Ans_1 | Ans_2 | ... | Obtained Marks |
+|-------------|------------|-------|-------|-----|----------------|
+| Student1.tif| 4312       | B     | C     | ... | 17             |
+| ...         | ...        | ...   | ...   | ... | ...            |
+
+---
+
+## 📌 To-Do / Improvements
+
+- [ ] Add GUI for easier interaction
+- [ ] Support multiple answer keys
+- [ ] Auto-align scanned sheets using template matching
+
+---
+
+## 📸 Sample Image Format
+
+Ensure all scanned OMR images:
+- Are properly aligned
+- Use same resolution and layout
+- Have blackened bubbles (not just light marks)
+
+---
+
+## 📄 License
+
+MIT License – Free to use and modify.
+
+---
+
+## 🧑‍💻 Author
+
+**Anand Vankhede**  
+_MCA Graduate, Python Developer_  
+_Actively seeking Python Developer roles_
